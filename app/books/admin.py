@@ -95,7 +95,6 @@ class BookAdmin(admin.ModelAdmin):
         "id",
         "title",
         "get_short_description",
-        "is_active",
         "created_at",
         "updated_at",
         "created_by",

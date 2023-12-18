@@ -1,1 +1,1 @@
-from .book import BookViewSet
+from .book import BookCopyViewSet, BookmarkViewSet, ReviewViewSet

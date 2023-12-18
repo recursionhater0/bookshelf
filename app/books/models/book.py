@@ -11,9 +11,6 @@ class Book(AbstractDateTimeModel, AbstractCreatedByModel):
         max_length=255,
     )
     description = models.TextField()
-    is_active = models.BooleanField(
-        default=True,
-    )
     categories = models.ManyToManyField(
         to="books.Category",
     )
@@ -46,6 +43,10 @@ class BookCopy(AbstractCreatedByModel, AbstractDateTimeModel):
 
     def __str__(self):
         return f"{self.book.title}"
+
+    @property
+    def average_rating(self):
+        return self.ratings.aggregate(models.Avg('rating'))['rating__avg']
 
 
 class Category(AbstractDateTimeModel, AbstractCreatedByModel):
