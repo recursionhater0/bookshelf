@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /usr/src/app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /usr/src/app/

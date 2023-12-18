@@ -69,42 +69,52 @@ class BookCopy(AbstractCreatedByModel, AbstractDateTimeModel):
 
 
 class Category(AbstractDateTimeModel, AbstractCreatedByModel):
-    name = models.CharField(
-        max_length=255,
-    )
+    name = models.CharField(max_length=255, verbose_name=ftl_lazy("category.name"))
     description = models.TextField(
-        blank=True,
+        blank=True, verbose_name=ftl_lazy("category.description")
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(
+        default=True, verbose_name=ftl_lazy("category.is_active")
+    )
 
     def __str__(self):
         return f"{self.name}"
+
+    class Meta:
+        verbose_name = ftl_lazy("category.verbose")
+        verbose_name_plural = ftl_lazy("category.plural")
 
 
 class Publisher(AbstractDateTimeModel, AbstractCreatedByModel):
-    name = models.CharField(
-        max_length=255,
-    )
+    name = models.CharField(max_length=255, verbose_name=ftl_lazy("publisher.name"))
 
     def __str__(self):
         return f"{self.name}"
+
+    class Meta:
+        verbose_name = ftl_lazy("publisher.verbose")
+        verbose_name_plural = ftl_lazy("publisher.plural")
 
 
 class Review(AbstractCreatedByModel, AbstractDateTimeModel):
     rating = models.PositiveBigIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)],
+        verbose_name=ftl_lazy("review.rating"),
     )
     book_copy = models.ForeignKey(
         to="books.BookCopy",
         on_delete=models.PROTECT,
         related_name="ratings",
+        verbose_name=ftl_lazy("review.book_copy"),
     )
-    comment = models.TextField(
-        blank=True,
-    )
+    comment = models.TextField(blank=True, verbose_name=ftl_lazy("review.comment"))
 
     def __str__(self):
         return f"{self.rating} {self.book_copy.book.title}"
+
+    class Meta:
+        verbose_name = ftl_lazy("review.verbose")
+        verbose_name_plural = ftl_lazy("review.plural")
 
 
 class Bookmark(AbstractDateTimeModel, AbstractCreatedByModel):
@@ -112,7 +122,12 @@ class Bookmark(AbstractDateTimeModel, AbstractCreatedByModel):
         to="books.BookCopy",
         on_delete=models.PROTECT,
         related_name="bookmarks",
+        verbose_name=ftl_lazy("bookmark.book_copy"),
     )
 
     def __str__(self):
         return f"Bookmark {self.created_by.get_full_name()} {self.book_copy.book.title}"
+
+    class Meta:
+        verbose_name = ftl_lazy("bookmark.verbose")
+        verbose_name_plural = ftl_lazy("bookmark.plural")
