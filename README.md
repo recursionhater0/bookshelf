@@ -7,7 +7,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 ```bash
 git clone git@github.com:recursionhater0/bookshelf.git
-cd book-management-system
 ```
 ### 2. Build and Run with Docker
 
