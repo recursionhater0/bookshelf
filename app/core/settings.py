@@ -108,7 +108,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = os.environ.get("LANGUAGE_CODE")
+LANGUAGES = [
+    ("ru", "Russian"),
+    ("en", "English")
+]
 
 TIME_ZONE = os.environ.get('TIMEZONE')
 
