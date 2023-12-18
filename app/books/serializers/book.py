@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from books.models import BookCopy, Book, Category, Review, Bookmark
+from books.models import Book, BookCopy, Bookmark, Category, Review
 
 from .authors import AuthorSerializer
 from .generic import CreatedBySerializer
@@ -56,9 +56,7 @@ class BookSerializer(serializers.ModelSerializer):
 class BookDetailSerializer(BookSerializer):
     class Meta(BookSerializer.Meta):
         model = Book
-        fields = BookSerializer.Meta.fields + (
-            "description",
-        )
+        fields = BookSerializer.Meta.fields + ("description",)
 
 
 class BookCopySerializer(serializers.ModelSerializer):

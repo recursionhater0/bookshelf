@@ -1,7 +1,16 @@
 from django.contrib import admin
 from django.http.request import HttpRequest
 
-from .models import *
+from .models import (
+    Author,
+    Book,
+    BookCopy,
+    Bookmark,
+    BookPrice,
+    Category,
+    Publisher,
+    Review,
+)
 
 
 @admin.register(Author)

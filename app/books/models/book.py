@@ -1,10 +1,10 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 
-from utils.abstract import AbstractDateTimeModel, AbstractCreatedByModel
+from utils.abstract import AbstractCreatedByModel, AbstractDateTimeModel
 
-from .utils import get_book_cover_upload_path
 from ..translate import ftl_lazy
+from .utils import get_book_cover_upload_path
 
 
 class Book(AbstractDateTimeModel, AbstractCreatedByModel):
@@ -12,16 +12,12 @@ class Book(AbstractDateTimeModel, AbstractCreatedByModel):
         max_length=255,
         verbose_name=ftl_lazy("book.title"),
     )
-    description = models.TextField(
-        verbose_name=ftl_lazy("book.description")
-    )
+    description = models.TextField(verbose_name=ftl_lazy("book.description"))
     categories = models.ManyToManyField(
-        to="books.Category",
-        verbose_name=ftl_lazy("book.categories")
+        to="books.Category", verbose_name=ftl_lazy("book.categories")
     )
     authors = models.ManyToManyField(
-        to="books.Author",
-        verbose_name=ftl_lazy("book.authors")
+        to="books.Author", verbose_name=ftl_lazy("book.authors")
     )
 
     def __str__(self):
@@ -37,12 +33,10 @@ class BookCopy(AbstractCreatedByModel, AbstractDateTimeModel):
         to="books.Book",
         on_delete=models.PROTECT,
         related_name="book_copies",
-        verbose_name=ftl_lazy("book_copy.book")
+        verbose_name=ftl_lazy("book_copy.book"),
     )
     isbn = models.CharField(
-        max_length=255,
-        blank=True,
-        verbose_name=ftl_lazy("book_copy.isbn")
+        max_length=255, blank=True, verbose_name=ftl_lazy("book_copy.isbn")
     )
     publication_date = models.DateField(
         verbose_name=ftl_lazy("book_copy.publication_date")
@@ -51,7 +45,7 @@ class BookCopy(AbstractCreatedByModel, AbstractDateTimeModel):
         to="books.Publisher",
         on_delete=models.PROTECT,
         related_name="copies",
-        verbose_name=ftl_lazy("book_copy.publisher")
+        verbose_name=ftl_lazy("book_copy.publisher"),
     )
     quantity = models.PositiveBigIntegerField(
         verbose_name=ftl_lazy("book_copy.quantity")
@@ -59,7 +53,7 @@ class BookCopy(AbstractCreatedByModel, AbstractDateTimeModel):
     cover_image = models.ImageField(
         upload_to=get_book_cover_upload_path,
         blank=True,
-        verbose_name=ftl_lazy("book_copy.cover_image")
+        verbose_name=ftl_lazy("book_copy.cover_image"),
     )
 
     def __str__(self):
@@ -71,7 +65,7 @@ class BookCopy(AbstractCreatedByModel, AbstractDateTimeModel):
 
     @property
     def average_rating(self):
-        return self.ratings.aggregate(models.Avg('rating'))['rating__avg']
+        return self.ratings.aggregate(models.Avg("rating"))["rating__avg"]
 
 
 class Category(AbstractDateTimeModel, AbstractCreatedByModel):
@@ -81,9 +75,7 @@ class Category(AbstractDateTimeModel, AbstractCreatedByModel):
     description = models.TextField(
         blank=True,
     )
-    is_active = models.BooleanField(
-        default=True
-    )
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -100,10 +92,7 @@ class Publisher(AbstractDateTimeModel, AbstractCreatedByModel):
 
 class Review(AbstractCreatedByModel, AbstractDateTimeModel):
     rating = models.PositiveBigIntegerField(
-        validators=[
-            MinValueValidator(1),
-            MaxValueValidator(10)
-        ],
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
     )
     book_copy = models.ForeignKey(
         to="books.BookCopy",

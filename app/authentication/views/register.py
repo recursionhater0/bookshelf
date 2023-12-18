@@ -1,15 +1,14 @@
-from rest_framework import viewsets, status, decorators, permissions
+from rest_framework import decorators, permissions, status, viewsets
 from rest_framework.response import Response
-
-from utils.mixins import MethodMatchingViewSetMixin
 
 from authentication.models import CustomUser
 from authentication.serializers import (
     CustomUserRegistrationSerializer,
-    TokenSerializer,
     CustomUserRegistrationWithVerificationSerializer,
     CustomUserSerializer,
+    TokenSerializer,
 )
+from utils.mixins import MethodMatchingViewSetMixin
 
 
 class CustomUserRegistrationViewSet(MethodMatchingViewSetMixin, viewsets.ModelViewSet):
@@ -28,7 +27,9 @@ class CustomUserRegistrationViewSet(MethodMatchingViewSetMixin, viewsets.ModelVi
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
-        return Response(CustomUserSerializer(instance).data, status=status.HTTP_201_CREATED)
+        return Response(
+            CustomUserSerializer(instance).data, status=status.HTTP_201_CREATED
+        )
 
     def create(self, request, *args, **kwargs):
         return self._create(request, *args, **kwargs)
@@ -43,10 +44,14 @@ class CustomUserRegistrationViewSet(MethodMatchingViewSetMixin, viewsets.ModelVi
         serializer.is_valid(raise_exception=True)
         token = serializer.validated_data["token"]
         try:
-            user = CustomUser.objects.get(email_verification_token=token, is_verified=False)
+            user = CustomUser.objects.get(
+                email_verification_token=token, is_verified=False
+            )
             user.is_verified = True
-            user.email_verification_token = ''
+            user.email_verification_token = ""
             user.save()
-            return Response(data={"message": "Email verified successfully!"}, status=200)
+            return Response(
+                data={"message": "Email verified successfully!"}, status=200
+            )
         except CustomUser.DoesNotExist:
             return Response(data={"message": "Invalid or expired token."}, status=400)

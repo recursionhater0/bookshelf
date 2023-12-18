@@ -1,0 +1,16 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    manage.py,
+    *migrations*,
+    venv,
+    .venv,
+    env,
+    .env
+
+ignore =
+    DJ01
+
+max-line-length = 120
+max-complexity = 10

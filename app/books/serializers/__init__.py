@@ -1,8 +1,8 @@
+from .authors import AuthorSerializer
 from .book import (
-    BookSerializer,
-    BookCopySerializer,
     BookCopyDetailSerializer,
+    BookCopySerializer,
     BookmarkSerializer,
+    BookSerializer,
     ReviewCreateSerializer,
 )
-from .authors import AuthorSerializer

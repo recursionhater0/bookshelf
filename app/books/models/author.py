@@ -1,6 +1,6 @@
 from django.db import models
 
-from utils.abstract import AbstractDateTimeModel, AbstractCreatedByModel
+from utils.abstract import AbstractCreatedByModel, AbstractDateTimeModel
 
 
 class Author(AbstractDateTimeModel, AbstractCreatedByModel):

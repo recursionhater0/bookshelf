@@ -1,1 +1,1 @@
-from .models import AbstractDateTimeModel, AbstractCreatedByModel
+from .models import AbstractCreatedByModel, AbstractDateTimeModel

@@ -1,8 +1,8 @@
 from .register import (
     CustomUserRegistrationSerializer,
     CustomUserRegistrationWithVerificationSerializer,
+    CustomUserSerializer,
     JWTTokenSerializer,
     TokenSerializer,
-    CustomUserSerializer,
 )
 from .user import CustomUserSerializer

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('authentication', '0004_remove_customuser_email_verification_token'),
+        ("authentication", "0004_remove_customuser_email_verification_token"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='customuser',
-            name='email_verification_token',
+            model_name="customuser",
+            name="email_verification_token",
             field=models.CharField(blank=True, max_length=255),
         ),
     ]

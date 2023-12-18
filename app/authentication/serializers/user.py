@@ -4,7 +4,6 @@ from authentication.models import CustomUser
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomUser
         fields = (
@@ -13,4 +12,3 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
         )
-
