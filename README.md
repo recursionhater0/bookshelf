@@ -17,3 +17,9 @@ make build
 make up
 ```
 Access the Application. The application should now be running at http://localhost:8000.
+
+## Further improvements
+1. Add poetry
+2. Multistage building in Docker
+3. Fixed dependency hell (watch requirements.txt). Split then into dev and prod envs.
+4. Add tests
