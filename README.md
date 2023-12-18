@@ -15,7 +15,5 @@ Use the Makefile commands to build and start the application:
 ```bash
 make build
 make up
-Access the Application
 ```
-
-The application should now be running at http://localhost:8000.
+Access the Application. The application should now be running at http://localhost:8000.
