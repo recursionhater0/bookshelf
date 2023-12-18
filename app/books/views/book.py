@@ -1,5 +1,6 @@
 from django.db import models
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import filters, decorators, permissions, viewsets, status
 from rest_framework.response import Response
 
@@ -10,6 +11,14 @@ from books.serializers import BookCopySerializer, BookCopyDetailSerializer, Book
 from utils.mixins import MethodMatchingViewSetMixin
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Получить список книг",
+    ),
+    retrieve=extend_schema(
+        summary="Получить детальную информацию по книгам",
+    ),
+)
 class BookCopyViewSet(MethodMatchingViewSetMixin, viewsets.ModelViewSet):
     queryset = BookCopy.objects.all()
     serializer_class = BookCopySerializer
@@ -41,6 +50,14 @@ class BookCopyViewSet(MethodMatchingViewSetMixin, viewsets.ModelViewSet):
         return queryset
 
 
+@extend_schema_view(
+    create=extend_schema(
+        summary="Добавить книгу в избранное",
+    ),
+    retrieve=extend_schema(
+        summary="Удалить книгу из избранного",
+    ),
+)
 class BookmarkViewSet(viewsets.ModelViewSet):
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
@@ -61,6 +78,11 @@ class BookmarkViewSet(viewsets.ModelViewSet):
         return Response({"message": "Book is successfully removed from bookmark"}, status=status.HTTP_200_OK)
 
 
+@extend_schema_view(
+    create=extend_schema(
+        summary="Оставить отзыв",
+    ),
+)
 class ReviewViewSet(MethodMatchingViewSetMixin, viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewCreateSerializer

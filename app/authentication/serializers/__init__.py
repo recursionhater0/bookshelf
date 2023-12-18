@@ -3,5 +3,6 @@ from .register import (
     CustomUserRegistrationWithVerificationSerializer,
     JWTTokenSerializer,
     TokenSerializer,
+    CustomUserSerializer,
 )
 from .user import CustomUserSerializer

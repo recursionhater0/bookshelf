@@ -1,15 +1,14 @@
 from rest_framework import viewsets, status, decorators, permissions
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from utils.mixins import MethodMatchingViewSetMixin
 
 from authentication.models import CustomUser
 from authentication.serializers import (
     CustomUserRegistrationSerializer,
-    JWTTokenSerializer,
     TokenSerializer,
     CustomUserRegistrationWithVerificationSerializer,
+    CustomUserSerializer,
 )
 
 
@@ -28,14 +27,8 @@ class CustomUserRegistrationViewSet(MethodMatchingViewSetMixin, viewsets.ModelVi
     def _create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        refresh = RefreshToken.for_user(user)
-        response_serializer = JWTTokenSerializer(data={
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        })
-        response_serializer.is_valid()
-        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        instance = serializer.save()
+        return Response(CustomUserSerializer(instance).data, status=status.HTTP_201_CREATED)
 
     def create(self, request, *args, **kwargs):
         return self._create(request, *args, **kwargs)
