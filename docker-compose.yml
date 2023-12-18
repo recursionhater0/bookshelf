@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -11,3 +10,19 @@ services:
       - "8000:8000"
     env_file:
       - ./app/.env
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    command: celery -A core worker -l info
+    volumes:
+      - ./app:/usr/src/app
+    depends_on:
+      - web
+      - redis

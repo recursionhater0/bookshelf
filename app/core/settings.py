@@ -29,6 +29,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_spectacular",
     "django_filters",
+    "django_celery_results",
 ]
 
 INSTALLED_APPS = [
@@ -97,7 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.environ.get('TIMEZONE')
 
 USE_I18N = True
 
@@ -133,12 +134,19 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
 }
 
-# EMAIL
+# Email
 SITE_URL = os.environ.get('SITE_URL', 'localhost:8000')
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL')
+EMAIL_USE_TLS = bool(os.environ.get('EMAIL_USE_TLS'))
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# Celery
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_ACCEPT_CONTENT = os.environ.get('CELERY_ACCEPT_CONTENT').split()
+CELERY_RESULT_SERIALIZER = os.environ.get('CELERY_RESULT_SERIALIZER')
+CELERY_TASK_SERIALIZER = os.environ.get('CELERY_TASK_SERIALIZER')
+CELERY_TIMEZONE = os.environ.get('TIMEZONE')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')

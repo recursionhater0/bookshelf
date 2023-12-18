@@ -1,10 +1,9 @@
 from django.conf import settings
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from rest_framework import serializers
 
 from authentication.models import CustomUser
+from authentication.tasks import send_registration_email
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -41,12 +40,11 @@ class CustomUserRegistrationWithVerificationSerializer(CustomUserRegistrationSer
         token = get_random_string(length=255)
         user = CustomUser.objects.create_user(**validated_data, email_verification_token=token, is_verified=False)
         verification_url = f"{settings.SITE_URL}/verify-email/{user.email}/{token}/"
-        send_mail(
-            subject='Verify your email',
-            message=f'Please click the following link to verify your email: {verification_url}',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user.email],
-            fail_silently=False,
+        send_registration_email.delay(
+            "Verify your email",
+            f"Please click the following link to verify your email: {verification_url}",
+            settings.EMAIL_HOST_USER,
+            [user.email]
         )
         return user
 
